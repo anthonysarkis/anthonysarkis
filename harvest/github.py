@@ -50,7 +50,7 @@ class GitHub:
             except urllib.error.URLError:
                 time.sleep(2**attempt)
 
-        raise RuntimeError(f"GitHub kept failing for {url}")
+        raise RuntimeError(f"GitHub kept failing after {ATTEMPTS} attempts")
 
     def send(self, url: str) -> tuple[object, dict]:
         api_request = urllib.request.Request(url, headers=self.headers)

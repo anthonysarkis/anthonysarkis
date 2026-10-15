@@ -83,7 +83,7 @@ def count_new_commits(
 
     for commit, count in zip(to_count, counts, strict=True):
         if not count.exact:
-            print(f"No file list for {commit.repository}@{commit.sha[:7]}, estimated for now", file=sys.stderr)
+            print(f"No file list for commit {commit.sha[:7]}, estimated for now", file=sys.stderr)
 
     print(f"{len(listed):,} commits, {len(to_count):,} counted this run", file=sys.stderr)
     return {commit.sha: count for commit, count in zip(to_count, counts, strict=True)}
