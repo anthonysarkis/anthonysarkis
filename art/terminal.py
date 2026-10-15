@@ -18,8 +18,10 @@ COW_LEFT = 40
 COW_WIDTH = 320
 BLOCK_WIDTH = 26
 BLOCK_HEIGHT = 15
+BLANK_LINE = ""
 
 USER = "anthony@montreal"
+ROOT_USER = "root@anthony"
 COMMAND = "neofetch"
 COMMAND_X = TEXT_LEFT + len(f"{USER} ~ $ ") * CHARACTER_WIDTH
 TYPING_START = 0.45
@@ -55,13 +57,19 @@ class Row(NamedTuple):
     value: list[tuple[str, str]]
 
 
+class Section(NamedTuple):
+    title: str
+    rows: list[Row]
+
+
 class Terminal(NamedTuple):
     drawing: Layer
     height: int
 
 
-def neofetch_terminal(header: str, rows: list[Row]) -> Terminal:
-    info_lines = 2 + len(rows)
+def neofetch_terminal(sections: list[Section]) -> Terminal:
+    lines = report_lines(sections)
+    info_lines = len(lines)
     blocks_y = INFO_TOP + info_lines * LINE_HEIGHT - 6
     closing_prompt_y = blocks_y + 52
     height = closing_prompt_y + 52
@@ -73,7 +81,7 @@ def neofetch_terminal(header: str, rows: list[Row]) -> Terminal:
         prompt_line(PROMPT_Y),
         typed_command(),
         logo.body,
-        *report_lines(header, rows),
+        *printed_lines(lines),
         colour_blocks(blocks_y, blocks_delay),
         closing_prompt(closing_prompt_y, blocks_delay + CLOSING_PROMPT_DELAY),
     ]
@@ -92,7 +100,7 @@ def window(height: int) -> str:
         f'<path d="{title_bar}" fill="#161b22"/>'
         f'<line x1=".5" y1="{TITLE_BAR_HEIGHT}" x2="{WIDTH - 0.5}" y2="{TITLE_BAR_HEIGHT}" stroke="#30363d"/>'
         f"{buttons}"
-        f'<text class="title" x="{WIDTH / 2}" y="23" text-anchor="middle">{USER}: ~</text>'
+        f'<text class="title" x="{WIDTH / 2}" y="23" text-anchor="middle">{ROOT_USER}: ~</text>'
     )
 
 
@@ -130,11 +138,25 @@ def cow_logo(info_lines: int) -> Layer:
     )
 
 
-def report_lines(header: str, rows: list[Row]) -> list[str]:
-    title = f'<tspan fill="{GREEN}" font-weight="700">{escape(header)}</tspan>'
-    rule = f'<tspan fill="{DIM}">{"─" * columns(header)}</tspan>'
-    lines = [title, rule, *(report_row(row) for row in rows)]
-    return [output_line(index, line) for index, line in enumerate(lines)]
+def report_lines(sections: list[Section]) -> list[str]:
+    lines = []
+    for section in sections:
+        if lines:
+            lines.append(BLANK_LINE)
+        lines.extend(section_lines(section))
+
+    return lines
+
+
+def section_lines(section: Section) -> list[str]:
+    title = f'<tspan fill="{GREEN}" font-weight="700">{escape(section.title)}</tspan>'
+    rule = f'<tspan fill="{DIM}">{"─" * columns(section.title)}</tspan>'
+    rows = [report_row(row) for row in section.rows]
+    return [title, rule, *rows]
+
+
+def printed_lines(lines: list[str]) -> list[str]:
+    return [output_line(index, line) for index, line in enumerate(lines) if line != BLANK_LINE]
 
 
 def report_row(row: Row) -> str:

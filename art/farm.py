@@ -2,7 +2,7 @@ from harvest.stats import Harvest
 
 from .field import FRONT_Y, field
 from .layout import SCENE_HEIGHT, WIDTH
-from .report import HEADER, report_label, report_rows
+from .report import report_label, report_sections
 from .scenery import barn, clouds, hills, road, sky, skyline, sun
 from .svg import FONT, REDUCED_MOTION, Layer, group, stack, svg_document
 from .terminal import neofetch_terminal
@@ -22,8 +22,8 @@ TITLES_STYLE = f"""
 
 
 def farm_svg(harvest: Harvest) -> str:
-    rows = report_rows(harvest)
-    terminal = neofetch_terminal(HEADER, rows)
+    sections = report_sections(harvest)
+    terminal = neofetch_terminal(sections)
     card_height = round(TERMINAL_TOP + terminal.height * TERMINAL_SCALE + TERMINAL_MARGIN)
 
     scene = farm_scene(harvest, card_height)

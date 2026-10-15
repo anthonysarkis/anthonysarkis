@@ -1,7 +1,7 @@
 from typing import NamedTuple
 
 from .layout import SCENE_HEIGHT, WIDTH
-from .svg import Layer, number
+from .svg import Layer, number, points
 
 
 class Cloud(NamedTuple):
@@ -12,22 +12,45 @@ class Cloud(NamedTuple):
 
 
 class Tower(NamedTuple):
-    left: int
-    width: int
-    height: int
+    left: float
+    width: float
+    top: float
 
 
 CLOUDS = [Cloud(120, 70, 1.0, 95), Cloud(520, 46, 0.8, 120), Cloud(330, 128, 0.65, 140)]
-DOWNTOWN = [
-    Tower(690, 7, 16),
-    Tower(699, 6, 24),
-    Tower(707, 9, 30),
-    Tower(718, 6, 38),
-    Tower(726, 8, 34),
-    Tower(736, 6, 22),
-    Tower(744, 7, 18),
+SKYLINE_BASE = 262
+SKYLINE_FILL = "#a9c3df"
+MOUNTAIN_FILL = "#c2d6eb"
+RIB_STROKE = "#c3d6eb"
+
+MOUNT_ROYAL = (
+    "M544 262 C558 248 576 230 598 220 C612 214 626 212 640 212.5 C654 213 664 218 676 227 C690 238 702 250 710 262 Z"
+)
+MOUNT_ROYAL_CROSS = Tower(627.2, 1.6, 198)
+MOUNT_ROYAL_CROSSBAR = Tower(623.5, 9, 202.5)
+
+PLAIN_TOWERS = [
+    Tower(646, 8, 236),
+    Tower(655, 7, 227),
+    Tower(678, 8, 231),
+    Tower(709, 9, 223),
+    Tower(719, 7, 233),
+    Tower(727, 8, 229),
 ]
-HORIZON_Y = 252
+PLACE_VILLE_MARIE = Tower(663, 14, 219)
+LA_GAUCHETIERE = Tower(687, 10, 214)
+RENE_LEVESQUE = Tower(698, 10, 216)
+
+OLYMPIC_TOWER = "M742 262 V247.5 C762 246.5 779 238 792 204 L802 201.5 C797 211 788 226 781 240 L778 262 Z"
+OLYMPIC_TOWER_SLATS = "M767.5 241 H779.5 M771.5 237.5 H780.5 M775.5 234 H782.5 M778.5 230.5 H784.5"
+OLYMPIC_TOWER_TOP = (800, 204)
+OLYMPIC_BOWL = "M770 262 C770 250 773 241.5 784 240.5 C800 238.2 834 237.5 850 240 C858 241.5 864 248 865 262 Z"
+OLYMPIC_ROOF_RIM = "M793 242.5 C807 240 834 240 849 242.5"
+OLYMPIC_ROOF_ANCHORS = [(814, 238.2), (824, 238.2), (834, 238.5), (844, 239.2)]
+OLYMPIC_RIB_TOPS = range(798, 848, 6)
+OLYMPIC_RIB_TOP_Y = 244
+OLYMPIC_MIDDLE_X = 821
+OLYMPIC_RIB_LEAN = 0.3
 SUN_CENTER = (792, 82)
 ROAD_HEIGHT = 26
 
@@ -85,13 +108,91 @@ def cloud(drifting: Cloud) -> str:
 
 
 def skyline() -> Layer:
-    towers = "".join(
-        f'<rect x="{tower.left}" y="{HORIZON_Y - tower.height}" width="{tower.width}" height="{tower.height}"/>'
-        for tower in DOWNTOWN
+    mountain = mount_royal()
+    cross = mount_royal_cross()
+    city = downtown()
+    stadium = olympic_stadium()
+    return Layer(f'{mountain}<g fill="{SKYLINE_FILL}" opacity=".75">{cross}{city}{stadium}</g>')
+
+
+def mount_royal() -> str:
+    return f'<path d="{MOUNT_ROYAL}" fill="{MOUNTAIN_FILL}" opacity=".75"/>'
+
+
+def mount_royal_cross() -> str:
+    upright = bar(MOUNT_ROYAL_CROSS, 213)
+    crossbar = bar(MOUNT_ROYAL_CROSSBAR, MOUNT_ROYAL_CROSSBAR.top + 1.6)
+    return upright + crossbar
+
+
+def downtown() -> str:
+    plain = "".join(plain_tower(tower) for tower in PLAIN_TOWERS)
+    beacon = beacon_tower(PLACE_VILLE_MARIE)
+    pyramid = pyramid_tower(LA_GAUCHETIERE)
+    stepped = stepped_tower(RENE_LEVESQUE)
+    return plain + beacon + pyramid + stepped
+
+
+def plain_tower(tower: Tower) -> str:
+    return bar(tower, SKYLINE_BASE)
+
+
+def beacon_tower(tower: Tower) -> str:
+    body = plain_tower(tower)
+    mast_left = tower.left + tower.width / 2 - 0.6
+    mast = Tower(mast_left, 1.2, tower.top - 6)
+    return body + plain_tower(mast)
+
+
+def pyramid_tower(tower: Tower) -> str:
+    body = plain_tower(tower)
+    right = tower.left + tower.width
+    peak = (tower.left + tower.width / 2, tower.top - tower.width * 0.9)
+    corners = points((tower.left, tower.top), peak, (right, tower.top))
+    return f'{body}<polygon points="{corners}"/>'
+
+
+def stepped_tower(tower: Tower) -> str:
+    body = plain_tower(tower)
+    first_step = Tower(tower.left + 1.5, tower.width - 3, tower.top - 3)
+    second_step = Tower(tower.left + 3, tower.width - 6, tower.top - 6)
+    return body + plain_tower(first_step) + plain_tower(second_step)
+
+
+def bar(tower: Tower, bottom: float) -> str:
+    left = number(tower.left)
+    top = number(tower.top)
+    width = number(tower.width)
+    height = number(bottom - tower.top)
+    return f'<rect x="{left}" y="{top}" width="{width}" height="{height}"/>'
+
+
+def olympic_stadium() -> str:
+    ribs = olympic_ribs()
+    cables = olympic_cables()
+    return (
+        f'<path d="{OLYMPIC_TOWER}"/>'
+        f'<path d="{OLYMPIC_TOWER_SLATS}" stroke="{RIB_STROKE}" stroke-width=".9"/>'
+        f'<path d="{OLYMPIC_BOWL}"/>'
+        f'<path d="{OLYMPIC_ROOF_RIM} {ribs}" stroke="{RIB_STROKE}" stroke-width=".9" fill="none"/>'
+        f'<path d="{cables}" stroke="{SKYLINE_FILL}" stroke-width=".8" fill="none"/>'
     )
-    mount_royal = '<path d="M560 252 C585 238 610 232 640 236 C660 239 676 246 690 252 Z"/>'
-    olympic_stadium = '<path d="M762 252 L766 252 L781 226 L778 224 Z"/><path d="M758 252 C766 244 784 243 794 252 Z"/>'
-    return Layer(f'<g fill="#a9c3df" opacity=".75">{mount_royal}{towers}{olympic_stadium}</g>')
+
+
+def olympic_ribs() -> str:
+    ribs = []
+    for top_x in OLYMPIC_RIB_TOPS:
+        lean = (top_x - OLYMPIC_MIDDLE_X) * OLYMPIC_RIB_LEAN
+        bottom_x = number(top_x + lean)
+        ribs.append(f"M{top_x} {OLYMPIC_RIB_TOP_Y} Q{top_x} 255 {bottom_x} {SKYLINE_BASE}")
+
+    return " ".join(ribs)
+
+
+def olympic_cables() -> str:
+    top_x, top_y = OLYMPIC_TOWER_TOP
+    cables = [f"M{top_x} {top_y} L{number(anchor_x)} {number(anchor_y)}" for anchor_x, anchor_y in OLYMPIC_ROOF_ANCHORS]
+    return " ".join(cables)
 
 
 def hills(bottom: int) -> Layer:

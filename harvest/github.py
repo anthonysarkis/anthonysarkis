@@ -1,3 +1,4 @@
+import http.client
 import json
 import re
 import sys
@@ -10,6 +11,7 @@ API = "https://api.github.com"
 ATTEMPTS = 6
 LONGEST_WAIT_SECONDS = 3600
 EMPTY_REPOSITORY = HTTPStatus.CONFLICT
+NETWORK_ERRORS = (OSError, http.client.HTTPException)
 NEXT_PAGE_LINK = re.compile(r'<([^>]+)>;\s*rel="next"')
 
 
@@ -47,7 +49,7 @@ class GitHub:
                 if error.code == EMPTY_REPOSITORY:
                     return None, {}
                 wait_before_retry(error, attempt)
-            except urllib.error.URLError:
+            except NETWORK_ERRORS:
                 time.sleep(2**attempt)
 
         raise RuntimeError(f"GitHub kept failing after {ATTEMPTS} attempts")
