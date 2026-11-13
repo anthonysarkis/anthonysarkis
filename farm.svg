@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="880" height="997" viewBox="0 0 880 997" role="img" aria-label="Hey, I&#x27;m Anthony. A farm where every plant is a day of commits. Harvest report: 1,206,520 lines planted, 457,949 weeds pulled, 1,801 commits in 95 repos.">
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="997" viewBox="0 0 880 997" role="img" aria-label="Hey, I&#x27;m Anthony. A farm where every plant is a day of commits. Harvest report: 1,206,796 lines planted, 458,014 weeds pulled, 1,803 commits in 95 repos.">
 <style>
     .rays { animation: spin 60s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -60,17 +60,17 @@
 <g class="blades blades-slow"><path fill="#74ad35" d="M283.75 193Q282.7 186.4 284 181Q289.5 187 290.25 193Z"/><path fill="#8cc63e" d="M289.75 193Q290.1 183.65 294 176Q296.5 184.5 296.25 193Z"/><path fill="#74ad35" d="M295.75 193Q297.15 186.95 303 182Q303.25 187.5 302.25 193Z"/></g></g></g>
 <text class="mono out" x="400" y="108" style="animation-delay:1.35s"><tspan fill="#3fb950" font-weight="700">🌾 Harvest report</tspan></text>
 <text class="mono out" x="400" y="130" style="animation-delay:1.41s"><tspan fill="#6e7681">─────────────────</tspan></text>
-<text class="mono out" x="400" y="152" style="animation-delay:1.47s"><tspan fill="#3fb950" font-weight="700">🌱 Lines planted</tspan><tspan x="584"><tspan fill="#3fb950">+1,206,520</tspan></tspan></text>
-<text class="mono out" x="400" y="174" style="animation-delay:1.53s"><tspan fill="#3fb950" font-weight="700">🌿 Weeds pulled</tspan><tspan x="584"><tspan fill="#f85149">−457,949</tspan></tspan></text>
-<text class="mono out" x="400" y="196" style="animation-delay:1.59s"><tspan fill="#3fb950" font-weight="700">🚜 Season 2026</tspan><tspan x="584"><tspan fill="#e6edf3">947 commits so far</tspan></tspan></text>
-<text class="mono out" x="400" y="218" style="animation-delay:1.65s"><tspan fill="#3fb950" font-weight="700">📦 Packages</tspan><tspan x="584"><tspan fill="#e6edf3">95 repos, 1,801 commits</tspan></tspan></text>
+<text class="mono out" x="400" y="152" style="animation-delay:1.47s"><tspan fill="#3fb950" font-weight="700">🌱 Lines planted</tspan><tspan x="584"><tspan fill="#3fb950">+1,206,796</tspan></tspan></text>
+<text class="mono out" x="400" y="174" style="animation-delay:1.53s"><tspan fill="#3fb950" font-weight="700">🌿 Weeds pulled</tspan><tspan x="584"><tspan fill="#f85149">−458,014</tspan></tspan></text>
+<text class="mono out" x="400" y="196" style="animation-delay:1.59s"><tspan fill="#3fb950" font-weight="700">🚜 Season 2026</tspan><tspan x="584"><tspan fill="#e6edf3">949 commits so far</tspan></tspan></text>
+<text class="mono out" x="400" y="218" style="animation-delay:1.65s"><tspan fill="#3fb950" font-weight="700">📦 Packages</tspan><tspan x="584"><tspan fill="#e6edf3">95 repos, 1,803 commits</tspan></tspan></text>
 <text class="mono out" x="400" y="240" style="animation-delay:1.71s"><tspan fill="#3fb950" font-weight="700">🔥 Longest streak</tspan><tspan x="584"><tspan fill="#e6edf3">25 days in a row</tspan></tspan></text>
 <text class="mono out" x="400" y="262" style="animation-delay:1.77s"><tspan fill="#3fb950" font-weight="700">🌙 Night shifts</tspan><tspan x="584"><tspan fill="#e6edf3">31% of commits after 10 pm</tspan></tspan></text>
 <text class="mono out" x="400" y="306" style="animation-delay:1.89s"><tspan fill="#3fb950" font-weight="700">root@anthony</tspan></text>
 <text class="mono out" x="400" y="328" style="animation-delay:1.95s"><tspan fill="#6e7681">────────────</tspan></text>
-<text class="mono out" x="400" y="350" style="animation-delay:2.01s"><tspan fill="#3fb950" font-weight="700">💻 OS</tspan><tspan x="584"><tspan fill="#e6edf3">Anthony v26.3.15 LTS</tspan></tspan></text>
+<text class="mono out" x="400" y="350" style="animation-delay:2.01s"><tspan fill="#3fb950" font-weight="700">💻 OS</tspan><tspan x="584"><tspan fill="#e6edf3">Anthony v26.3.16 LTS</tspan></tspan></text>
 <text class="mono out" x="400" y="372" style="animation-delay:2.07s"><tspan fill="#3fb950" font-weight="700">🏡 Host</tspan><tspan x="584"><tspan fill="#e6edf3">Montréal, QC</tspan></tspan></text>
-<text class="mono out" x="400" y="394" style="animation-delay:2.13s"><tspan fill="#3fb950" font-weight="700">🎂 Uptime</tspan><tspan x="584"><tspan fill="#e6edf3">26 years, 3 months, 15 days</tspan></tspan></text>
+<text class="mono out" x="400" y="394" style="animation-delay:2.13s"><tspan fill="#3fb950" font-weight="700">🎂 Uptime</tspan><tspan x="584"><tspan fill="#e6edf3">26 years, 3 months, 16 days</tspan></tspan></text>
 <text class="mono out" x="400" y="416" style="animation-delay:2.19s"><tspan fill="#3fb950" font-weight="700">😴 Bedtime</tspan><tspan x="584"><tspan fill="#e6edf3">6:22 am</tspan></tspan></text>
 <g class="out" style="animation-delay:2.25s"><rect x="400" y="432" width="26" height="15" fill="#484f58"/><rect x="426" y="432" width="26" height="15" fill="#ff7b72"/><rect x="452" y="432" width="26" height="15" fill="#3fb950"/><rect x="478" y="432" width="26" height="15" fill="#d29922"/><rect x="504" y="432" width="26" height="15" fill="#58a6ff"/><rect x="530" y="432" width="26" height="15" fill="#bc8cff"/><rect x="556" y="432" width="26" height="15" fill="#39c5cf"/><rect x="582" y="432" width="26" height="15" fill="#b1bac4"/></g>
 <g class="out" style="animation-delay:2.45s"><text class="mono" x="24" y="484"><tspan fill="#3fb950" font-weight="700">anthony@montreal</tspan><tspan fill="#58a6ff"> ~ </tspan><tspan fill="#e6edf3">$ </tspan></text><rect class="cursor" x="213" y="471" width="9" height="17" fill="#e6edf3"/></g></g>
